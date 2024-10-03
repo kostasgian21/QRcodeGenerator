@@ -23,9 +23,10 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       textInput("link", "Enter link below", "www.fhi.no"),      plotOutput("tplot" ),
-      downloadButton("downloadData", "Download QR in pdf"),
-      downloadButton("downloadData2", "Download QR in png"),
-      downloadButton("downloadData3", "Download QR in png (high redudancy)")
+      downloadButton("downloadData", "Download in pdf"),
+      downloadButton("downloadData4", "Download in svg"),
+      downloadButton("downloadData2", "Download in png")
+      # downloadButton("downloadData3", "Download in png (high redudancy)")
     ),
     mainPanel(
 
@@ -67,6 +68,15 @@ server <- function(input, output) {
     filename = "qrfile.png",
     content = function(file) {
       png(file) # open the pdf device
+      plot(qrcode::qr_code(input$link,ecl="M")) # draw the plot
+      dev.off()  # turn the device off
+    }
+  )
+  
+  output$downloadData4 <- downloadHandler(
+    filename = "qrfile.svg",
+    content = function(file) {
+      svg(file) # open the pdf device
       plot(qrcode::qr_code(input$link,ecl="M")) # draw the plot
       dev.off()  # turn the device off
     }
