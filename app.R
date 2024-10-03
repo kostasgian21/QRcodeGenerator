@@ -45,7 +45,7 @@ server <- function(input, output) {
   # }
   
   tplot <- reactive({
-    qr <- qrcode::qr_code(input$link)
+    qr <- qrcode::qr_code(input$link,ecl="Q")
     plot(qr)
     
   })
@@ -57,7 +57,7 @@ server <- function(input, output) {
     filename = "qrfile.pdf",
     content = function(file) {
       pdf(file) # open the pdf device
-      plot(qrcode::qr_code(input$link)) # draw the plot
+      plot(qrcode::qr_code(input$link,ecl="Q")) # draw the plot
       dev.off()  # turn the device off
     }
   )
@@ -66,7 +66,7 @@ server <- function(input, output) {
     filename = "qrfile.png",
     content = function(file) {
       png(file) # open the pdf device
-      plot(qrcode::qr_code(input$link)) # draw the plot
+      plot(qrcode::qr_code(input$link,ecl="Q")) # draw the plot
       dev.off()  # turn the device off
     }
   )
