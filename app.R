@@ -11,8 +11,8 @@
 
 
 # library(shiny)
-downloadLink <- function(...) {
-  tag <- shiny::downloadLink(...)
+downloadButton <- function(...) {
+  tag <- shiny::downloadButton(...)
   tag$attribs$download <- NULL
   tag
 }
@@ -22,7 +22,7 @@ downloadLink <- function(...) {
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
-      textInput("link", "Enter link below. If the download link don't work (in Chrome/Edge), right click on them and open in new tab.", "www.fhi.no")
+      textInput("link", "Enter link below.", "www.fhi.no")
     ),
     mainPanel(
       plotOutput("tplot" ),
