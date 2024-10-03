@@ -22,12 +22,13 @@ downloadButton <- function(...) {
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
-      textInput("link", "Enter link below", "www.fhi.no")
+      textInput("link", "Enter link below", "www.fhi.no"),      plotOutput("tplot" ),
+      downloadButton("downloadData", "Download QR in pdf"),
+      downloadButton("downloadData2", "Download QR in png"),
+      downloadButton("downloadData3", "Download QR in png (high redudancy)")
     ),
     mainPanel(
-      plotOutput("tplot" ),
-      downloadButton("downloadData", "Download QR in pdf"),
-      downloadButton("downloadData2", "Download QR in png")
+
     )
   )
 )
@@ -67,6 +68,15 @@ server <- function(input, output) {
     content = function(file) {
       png(file) # open the pdf device
       plot(qrcode::qr_code(input$link,ecl="M")) # draw the plot
+      dev.off()  # turn the device off
+    }
+  )
+  
+  output$downloadData3 <- downloadHandler(
+    filename = "qrfile.png",
+    content = function(file) {
+      png(file) # open the pdf device
+      plot(qrcode::qr_code(input$link,ecl="H")) # draw the plot
       dev.off()  # turn the device off
     }
   )
