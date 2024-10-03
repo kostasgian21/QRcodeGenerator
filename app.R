@@ -6,11 +6,18 @@
 # plot(code)
 # /c/Users/kogi/Documents/QRapp/QRcodeGenerator 
 # shinylive::export("C:/Users/kogi/Documents/repos/QRcodeGenerator", "site")
-# shinylive::export(appdir = "C:/Users/kogi/Documents/repos/QRcodeGenerator", destdir = "docs")
+# shinylive::export(appdir = "C:/Users/kogi/Documents/repos/QRapps/QRcodeGenerator", destdir = "docs")
 # library(curl)
 
 
 # library(shiny)
+downloadLink <- function(...) {
+  tag <- shiny::downloadLink(...)
+  tag$attribs$download <- NULL
+  tag
+}
+
+
 
 ui <- fluidPage(
   sidebarLayout(
@@ -19,8 +26,8 @@ ui <- fluidPage(
     ),
     mainPanel(
       plotOutput("tplot" ),
-      downloadButton("save", "Download QR in pdf"),
-      downloadButton("save2", "Download QR in png")
+      downloadButton("downloadData", "Download QR in pdf"),
+      downloadButton("downloadData2", "Download QR in png")
     )
   )
 )
@@ -46,28 +53,22 @@ server <- function(input, output) {
     tplot()
   })
   
-  # downloadHandler contains 2 arguments as functions, namely filename, content
-  output$save <- downloadHandler(
-    filename =  function() {
-      paste("qr.pdf")
-    },
-    # content is a function with argument file. content writes the plot to the device
+  output$downloadData <- downloadHandler(
+    filename = "qrfile.pdf",
     content = function(file) {
       pdf(file) # open the pdf device
       plot(qrcode::qr_code(input$link)) # draw the plot
       dev.off()  # turn the device off
-    } 
+    }
   )
-  output$save2 <- downloadHandler(
-    filename =  function() {
-      paste("qr.png")
-    },
-    # content is a function with argument file. content writes the plot to the device
+  
+  output$downloadData <- downloadHandler(
+    filename = "qrfile.png",
     content = function(file) {
       png(file) # open the pdf device
       plot(qrcode::qr_code(input$link)) # draw the plot
       dev.off()  # turn the device off
-    } 
+    }
   )
   # outputOptions(output, "save", suspendWhenHidden = FALSE)
 }
