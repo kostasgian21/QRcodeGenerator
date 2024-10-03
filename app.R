@@ -62,7 +62,7 @@ server <- function(input, output) {
     }
   )
   
-  output$downloadData <- downloadHandler(
+  output$downloadData2 <- downloadHandler(
     filename = "qrfile.png",
     content = function(file) {
       png(file) # open the pdf device
